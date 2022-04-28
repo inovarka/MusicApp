@@ -1,0 +1,23 @@
+﻿@using MusicApp.Models;
+
+<h1>@ViewBag.Artist.Name</h1>
+<div>@ViewBag.Artist.Description</div>
+
+<br />
+<table>
+    @foreach (Song song in ViewBag.Songs)
+    {
+        <tr>
+            <td>
+                <a href="Artist/Details/@song.ArtistId">@song.Artist.Name</a>
+            </td>
+            <td>@song.Name</td>
+            <td>
+                <audio controls="" name="media">
+                    <source src="@song.Address" type="audio/mpeg">
+                </audio>
+            </td>
+        </tr>
+    }
+
+</table>
