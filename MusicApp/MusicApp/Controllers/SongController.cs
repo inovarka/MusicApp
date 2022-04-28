@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using MusicApp.Models;
+using MusicApp.Services;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,39 +13,52 @@ namespace MusicApp.Controllers
     [Route("[controller]")]
     public class SongController : ControllerBase
     {
-        private static List<Song> Songs;
-        private readonly ILogger<SongController> _logger;
+        public static List<Song> Songs;
+        private readonly SongService songService;
 
-        public SongController(ILogger<SongController> logger)
+        public SongController(SongService songService)
         {
-            _logger = logger;
-
-            //Songs = new List<Song>()
-            //{
-            //    new Song {Id = 1, Name = "Let me be your woman", Artist = "Doja Cat",
-            //        Address = "https://api.meowpad.me/v2/sounds/preview/59561.m4a"},
-            //    new Song {Id = 2, Name = "Jewish drip", Artist = "Jews",
-            //        Address = "https://api.meowpad.me/v2/sounds/preview/26407.m4a"}
-            //};
+            this.songService = songService;
         }
 
         [HttpGet]
-        public IEnumerable<Song> Get()
+        public ActionResult<List<Song>> Get()
         {
-            return Songs;
+            return songService.GetList();
         }
 
         [HttpGet("{id}")]
-        public Song Get(int id)
+        public ActionResult<Song> Get(int id)
         {
-            Song song = new Song();
-            foreach(Song s in Songs)
+            return songService.Get(id);
+        }
+
+        [HttpPost]
+        public ActionResult<Song> Post(Song song)
+        {
+            song.Id = 0;
+            songService.Create(song);
+            return Ok(song);
+        }
+
+        [HttpPut]
+        public ActionResult Put(Song song)
+        {
+            songService.Update(song);
+            return Ok(song);
+        }
+
+        [HttpDelete("{id}")]
+        public ActionResult Delete(int id)
+        {
+            var song = songService.Get(id);
+            if (song == null)
             {
-                if (s.Id == id)
-                    song = s;
+                return BadRequest();
             }
 
-            return song;
+            songService.Delete(id);
+            return Ok("Song removed succesfully");
         }
     }
 }
