@@ -19,13 +19,13 @@ namespace MusicApp.Controllers
         {
             _logger = logger;
 
-            Songs = new List<Song>()
-            {
-                new Song {Id = 1, Name = "Let me be your woman", Author = "Doja Cat",
-                    Address = "https://api.meowpad.me/v2/sounds/preview/59561.m4a"},
-                new Song {Id = 2, Name = "Jewish drip", Author = "Jews",
-                    Address = "https://api.meowpad.me/v2/sounds/preview/26407.m4a"}
-            };
+            //Songs = new List<Song>()
+            //{
+            //    new Song {Id = 1, Name = "Let me be your woman", Artist = "Doja Cat",
+            //        Address = "https://api.meowpad.me/v2/sounds/preview/59561.m4a"},
+            //    new Song {Id = 2, Name = "Jewish drip", Artist = "Jews",
+            //        Address = "https://api.meowpad.me/v2/sounds/preview/26407.m4a"}
+            //};
         }
 
         [HttpGet]

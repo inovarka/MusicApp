@@ -2,11 +2,14 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.OpenApi.Models;
+using MusicApp.Models;
+using MusicApp.Services;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -28,6 +31,10 @@ namespace MusicApp
         {
 
             services.AddControllers();
+
+            string connectionString = "Data Source=DESKTOP-UH9KAER\\SQLEXPRESS;Initial Catalog=Music;Integrated Security=True";
+            services.AddDbContext<ApplicationContext>(options => options.UseSqlServer(connectionString));
+            services.AddTransient<SongService>();
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "MusicApp", Version = "v1" });

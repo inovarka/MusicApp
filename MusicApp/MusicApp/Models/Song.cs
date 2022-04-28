@@ -11,7 +11,7 @@ namespace MusicApp.Models
 
         public string Name { get; set; }
 
-        public string Author { get; set; }
+        public string Artist { get; set; }
 
         public string Address { get; set; }
     }
