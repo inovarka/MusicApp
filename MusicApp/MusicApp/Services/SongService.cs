@@ -19,13 +19,14 @@ namespace MusicApp.Services
 
         public List<Song> GetList()
         {
-            return context.Songs.ToList();
+            return context.Songs.Include(s=>s.Artist).ToList();
         }
 
         public Song Get(int id)
         {
             return context.Songs
                 .Where(r => r.Id == id)
+                .Include(s => s.Artist)
                 .FirstOrDefault();
         }
 
