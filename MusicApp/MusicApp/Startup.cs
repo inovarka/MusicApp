@@ -34,6 +34,7 @@ namespace MusicApp
 
             string connectionString = "Data Source=DESKTOP-UH9KAER\\SQLEXPRESS;Initial Catalog=Music;Integrated Security=True";
             services.AddDbContext<ApplicationContext>(options => options.UseSqlServer(connectionString));
+            services.AddTransient<ArtistService>();
             services.AddTransient<SongService>();
             services.AddSwaggerGen(c =>
             {
