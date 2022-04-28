@@ -30,7 +30,7 @@ namespace MusicApp
         public void ConfigureServices(IServiceCollection services)
         {
 
-            services.AddControllers();
+            services.AddControllersWithViews();
 
             string connectionString = "Data Source=DESKTOP-UH9KAER\\SQLEXPRESS;Initial Catalog=Music;Integrated Security=True";
             services.AddDbContext<ApplicationContext>(options => options.UseSqlServer(connectionString));
