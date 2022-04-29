@@ -36,6 +36,8 @@ namespace MusicApp
             services.AddDbContext<ApplicationContext>(options => options.UseSqlServer(connectionString));
             services.AddTransient<ArtistService>();
             services.AddTransient<SongService>();
+            services.AddTransient<UserService>();
+
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "MusicApp", Version = "v1" });
