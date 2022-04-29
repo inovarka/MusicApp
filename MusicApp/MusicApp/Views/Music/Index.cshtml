@@ -1,0 +1,66 @@
+﻿@using MusicApp.Models
+
+<h1>Songs</h1>
+
+<table>
+    <tr>
+        <td>Artist</td>
+        <td>Name</td>
+        <td></td>
+    </tr>
+    @foreach (Song song in ViewBag.Songs)
+    {
+
+        <tr>
+            <td>
+                <a href="Artist/@song.ArtistId">@song.Artist.Name</a>
+            </td>
+            <td>@song.Name</td>
+            <td>
+                <audio controls="" name="media">
+                    <source src="@song.Address" type="audio/mpeg" />
+                </audio>
+            </td>
+
+            <td>
+                @if (ViewBag.LikedSongs != null &&
+                   ViewBag.LikedSongs.Contains(song.Id))
+                {
+                    <img id="like_@song.Id" src="/pics/nolike.png" height="20" onclick="likeSong(@song.Id)" />
+                }
+                else
+                {
+                    <img id="like_@song.Id" src="/pics/like.png" height="20" onclick="likeSong(@song.Id)" />
+                }
+            </td>
+        </tr>
+
+    }
+</table>
+
+<script>
+    function likeSong(id) {
+        var request = new XMLHttpRequest();
+        var isLike = (document.getElementById("like_" + id).src.includes("/pics/like.png"));
+        if (isLike) {
+            request.open("post", "/UserLike/Like/" + id, true);
+            request.onload = function () {
+                if (request.status != 200) {
+                    alert("You have to login to interact");
+                } else {
+                    document.getElementById("like_" + id).src = "/pics/nolike.png";
+                }
+            }.bind(this);
+        } else {
+            request.open("post", "/UserLike/DisLike/" + id, true);
+            request.onload = function () {
+                if (request.status != 200) {
+                    alert("You have to login to interact");
+                } else {
+                    document.getElementById("like_" + id).src = "/pics/like.png";
+                }
+            }.bind(this);
+        }
+        request.send();
+    }
+</script> 
