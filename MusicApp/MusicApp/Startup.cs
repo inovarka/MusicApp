@@ -1,5 +1,7 @@
+using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -29,10 +31,16 @@ namespace MusicApp
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
+                .AddCookie(options =>
+                {
+                    options.LoginPath = new PathString("/Account/Login");
+                });
 
             services.AddControllersWithViews();
 
             string connectionString = "Data Source=DESKTOP-UH9KAER\\SQLEXPRESS;Initial Catalog=Music;Integrated Security=True";
+
             services.AddDbContext<ApplicationContext>(options => options.UseSqlServer(connectionString));
             services.AddTransient<ArtistService>();
             services.AddTransient<SongService>();
@@ -58,7 +66,9 @@ namespace MusicApp
             app.UseStaticFiles();
             app.UseRouting();
 
+            app.UseAuthentication();
             app.UseAuthorization();
+
 
             app.UseEndpoints(endpoints =>
             {
